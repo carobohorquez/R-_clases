@@ -1,0 +1,103 @@
+## CLASE 19/08/2023
+#Comando para instalacion de paquete
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("readxl")
+
+## Instalacion de librerias 
+
+library(dplyr)
+library(tidyr) 
+library(readxl)
+
+### Directorio, donde siempre vamos a guardar esta informacion:
+# siempre se deben cambiar los ya que vienen por defaul "\" --> "/"
+#-->buena practica el directorio esta en un principio
+#-->creacion  de una carpeta por  trajo 
+
+setwd("C:/Users/Ingenieria/Documents/base_1")
+
+# los calculos que se realicen en la consola: NO SE GUARDAN,si se quiere se deben guardar en el scrip
+
+15+1148
+3/4
+13^5
+
+(1/3 + 742/(1/915))^(1/9)
+
+# NaN "not a number"
+0/0
+
+#Numero infinito
+1/Inf
+
+#pi--> se mantiene guardado en R
+pi
+
+#####################################################################
+#                         ESTRUCTURAS BASICAS                       #
+#####################################################################
+
+#                          VARIABLES
+# Separacion decimal por  medio de "."
+
+A=3
+a=7.4
+b=3.4/19
+c="Carolina"
+# para los  boleanos se puede colocar T= TRUE O F= FALSE
+# se entiende los T= 1 y F= 0
+d=TRUE
+e=FALSE
+g=T
+h=F
+## raiz cuadrada
+i = sqrt(3)
+
+## Sumatoria de las variables
+j=A+b
+## para borrar la variables
+rm(ac)
+########################### VECTORES ###############################
+## Conjunto de datos, deben ser del mismo tipo
+## vestor de numeros enteros -->integrer
+
+aa = c(4,3,5)
+ab= c(25,19,48,67,13)
+
+##Vector numerico
+ba =c(7, pi, 1.1, 4.67, 5.1, 6.8) 
+
+#Vector de cadenas (funcion de concatenación)
+
+ciudad = c("Bogotá D.C","Cali","Barranquilla","Pasto","Tolima","Eje Cafetero")
+
+bool= c(T,F,T)
+
+## en el caso de tener vectores que contengan las diferentes tipos de datos; los toma automaticamente como texto
+X = c(2, T, "amarillo")
+
+########################### DATA FRAME ###############################
+
+# 1) creacion de los vectores
+ropa=c("Camisa","Pantalon","Gorra","Bufanda","Tenis")
+color= c("Blanco","Azul oscuro","Rojo","Verde","Blanco")
+patron=c("Si","No","Si","No","No")
+precio=c(20000,80000,25000,30000,120000)
+precio_empeno=c(10000,30000,5000,8000,30000)
+
+# 2) se crea une el conjunto de vectores
+data_ropa = data.frame (ropa,color,patron,precio,precio_empeno)
+
+# 3) se llama al data  frame
+data_ropa
+
+#Si queremos visualizar la tabla  en otra pestaña--> importante respetar la mayuscula del comando View
+View(data_ropa)
+
+#####################################################################
+#                           BASES DE DATOS                          #
+#####################################################################
+
+
+
