@@ -15,7 +15,7 @@ library(readxl)
 #-->buena practica el directorio esta en un principio
 #-->creacion  de una carpeta por  trajo 
 
-setwd("C:/Users/Ingenieria/Documents/base_1")
+setwd("C:\base_1")
 
 # los calculos que se realicen en la consola: NO SE GUARDAN,si se quiere se deben guardar en el scrip
 
@@ -99,5 +99,77 @@ View(data_ropa)
 #                           BASES DE DATOS                          #
 #####################################################################
 
+setwd("C:\base_1")
+
+
+# DATA FRAME 
+## BASE 1 
+id= c("A310","A119","A214", "A417")
+nombre= c("Jabon","Shampoo","Desodorante","Limido")
+precio= c(450,11700,14900,6000)
+
+tabla_d1=data.frame(id,nombre,precio)
+tabla_d1
+
+
+
+##BASE 2
+ident= c("A310","A65","A149","A214","A306")
+nombre= c("Jabon","Limpia vidrios","Papel higienico","Desodorante","Jabon de loza")
+precio=c(470,5400,9000,18100,12500)
+localidad=c("Suba","Suba","Teusaquillo","Usme","Usme")
+
+tabla_d2= data.frame(ident,nombre,precio,localidad)
+tabla_d2
+
+
+# UNIONE EN TABLAS RELACIONALES 
+# colocar las variables de conexion entre comillas
+#--> merge(base1, base2, by.x=“nombre variable”, by.y=“nombre variable”,all=TRUE)
+
+##FULL JOIN 
+# en  caso de tene mas tablas para unir se pueden hacer de dos en dos, en forma de cadena
+
+tabla_f=merge(tabla_d1,tabla_d2,by.x="id",by.y="ident",all=TRUE)
+tabla_f
+View (tabla_f)
+
+## INNER JOIN 
+# lo que esta en las dos bases de informacion
+tabla_inner=merge(tabla_d1,tabla_d2,by.x="id",by.y="ident",all=F)
+tabla_inner
+View (tabla_inner)
+
+##LEFT Y RIGHT JOIN 
+#1) LEFT 
+tabla_left=merge(tabla_d1,tabla_d2,by.x="id",by.y="ident",all.x=T)
+tabla_left
+
+#2)RIGTH
+tabla_rigth=merge(tabla_d1,tabla_d2,by.x="id",by.y="ident",all.y=T)
+tabla_rigth
+
+## CROSS JOIN 
+tabla_cross=merge(tabla_d1,tabla_d2,by=NULL)
+tabla_cross
+
+
+#####################################################################
+#                           EJERCICIO                               #
+#####################################################################
+
+setwd("C:/BK BD/base_1")
+library(readxl)
+base_1<- read_excel("base1.xlsx")
+base_1
+library(readxl)
+base_2<- read_excel("base2.xlsx")
+base_2
+
+## union
+bd_3=merge(base_1,base_2,by.x ="id",by.y = "id",all=F )
+bd_3
+
+###select()
 
 
