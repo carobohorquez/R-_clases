@@ -190,3 +190,25 @@ write.csv(base_b,"base_b")
 #library(xlsx)
 #write.xlsx(base2, “baselimpia.xlsx")
 
+
+
+#####################################################################
+#                                SEMANA 1                          #
+#####################################################################
+#Tabla de frecuencia relativa
+
+YY=c("St","St","St","St","St","St","P","P","P","P","P","P","P","P","P","Se",
+     "Se","Se","Se","Se","Se","Se","Se","Se","Se","Se","Se","T" ,"T","T",
+     "T","T","T","T", "T", "T", "T", "T", "U","U","U","U","U","U","U","U",
+     "U","U","U","U", "Ps","Ps","Ps","Ps","Ps","Ps","Ps","Ps","Ps","Ps")
+
+YF = factor(YY, levels=c("St","P","Se","T", "U","Ps"))
+#ctrl + enter-> seleccionar la variable, para ver esta informacion
+T2 = table(YF) 
+
+# se creo un vector de la tabla, con el proposito de hacer modificaciones
+V2 = c(T2)
+## las operaciones de los vectores 
+#x/sum(x)-->c(x1/sum(x),x2/sum(x),x3/sum(x)...Xn/sum(x))
+data.frame(ni=V2, Ni=cumsum(V2), fi = V2/sum(V2), Fi=cumsum(V2/sum(V2)))
+
