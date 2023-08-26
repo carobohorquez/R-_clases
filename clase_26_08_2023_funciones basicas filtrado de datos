@@ -1,0 +1,192 @@
+#####################################################################
+#                           BASES DE DATOS                          #
+#####################################################################
+
+setwd("C:\base_1")
+
+
+# DATA FRAME 
+## BASE 1 
+id= c("A310","A119","A214", "A417")
+nombre= c("Jabon","Shampoo","Desodorante","Limido")
+precio= c(450,11700,14900,6000)
+
+tabla_d1=data.frame(id,nombre,precio)
+tabla_d1
+
+
+
+##BASE 2
+ident= c("A310","A65","A149","A214","A306")
+nombre= c("Jabon","Limpia vidrios","Papel higienico","Desodorante","Jabon de loza")
+precio=c(470,5400,9000,18100,12500)
+localidad=c("Suba","Suba","Teusaquillo","Usme","Usme")
+
+tabla_d2= data.frame(ident,nombre,precio,localidad)
+tabla_d2
+
+
+# UNIONE EN TABLAS RELACIONALES 
+# colocar las variables de conexion entre comillas
+#--> merge(base1, base2, by.x=“nombre variable”, by.y=“nombre variable”,all=TRUE)
+
+##FULL JOIN 
+# en  caso de tene mas tablas para unir se pueden hacer de dos en dos, en forma de cadena
+
+tabla_f=merge(tabla_d1,tabla_d2,by.x="id",by.y="ident",all=TRUE)
+tabla_f
+View (tabla_f)
+
+## INNER JOIN 
+# lo que esta en las dos bases de informacion
+tabla_inner=merge(tabla_d1,tabla_d2,by.x="id",by.y="ident",all=F)
+tabla_inner
+View (tabla_inner)
+
+##LEFT Y RIGHT JOIN 
+#1) LEFT 
+tabla_left=merge(tabla_d1,tabla_d2,by.x="id",by.y="ident",all.x=T)
+tabla_left
+
+#2)RIGTH
+tabla_rigth=merge(tabla_d1,tabla_d2,by.x="id",by.y="ident",all.y=T)
+tabla_rigth
+
+## CROSS JOIN 
+tabla_cross=merge(tabla_d1,tabla_d2,by=NULL)
+tabla_cross
+
+
+#####################################################################
+#                           EJERCICIO                               #
+#####################################################################
+
+setwd("C:/BK BD/base_1")
+library(readxl)
+base_1<- read_excel("base1.xlsx")
+base_1
+library(readxl)
+base_2<- read_excel("base2.xlsx")
+base_2
+
+## union
+bd_3=merge(base_1,base_2,by.x ="id",by.y = "id",all=F )
+bd_3
+
+###select()
+
+
+### Clase 26/08/2023
+#1)  instalacion de los paquetes que contienen las librerias  
+#Comando para instalacion de paquete
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("readxl")
+
+#2) Instalacion de librerias 
+
+library(dplyr)
+library(tidyr) 
+library(readxl)
+
+#3) colocar la ruta dedonde se van a extraer la información 
+setwd("C:/Users/Ingenieria/Documents/Base_1")
+
+#4) importacion de los archivos a utilizar 
+base_1<- read_excel("base1.xlsx")
+base_1
+library(readxl)
+base_2<- read_excel("base2.xlsx")
+base_2
+
+## Siempe colocar las " en la variables de union 
+base_total=merge(base_1,base_2,by.x="id",by.y="id",all=F)
+View(base_total)
+
+
+
+#####################################################################
+#                           EJERCICIO                               #
+#####################################################################
+
+##SELECT(base_, campo_1,campo_2)
+
+b_1=select(base_total,id,valor1,valor2)
+
+#Si queremos todas las columnas menos Estado:
+#-->select(baseF, -Estado)
+
+b_2=select(base_total,-Estado)
+
+#Si queremos seleccionar un rango de columnas por ejemplo de ‘id’ a ‘situación’ usamos :
+#-->select(baseF, id:situacion.x)
+b_3=select(base_total,id:situacion.x)
+
+#quedarnos únicamente con columnas que no estén repetidas
+#-->base1 <- select(baseF, -nombre.y, -situacion.y)
+b_4=select(base_total,-nombre.y,-situacion.y)
+
+
+#como filtrar en la tablas 
+f_1=filter(base_total,valor2>10000000)
+
+## para visualizar cuantos registros existen en la tala
+table(base_total$pago.x)
+
+b_5=filter(base_total,pago.x=="SUCURSAL10" & valor1<500000)
+
+b_6=filter(base_total,pago.x=="SUCURSAL10" | valor1<500000)
+
+## 
+be_1=filter(base_total,valor1<=valor2 & situacion.x=="DIFICIL COBRO")
+
+## Ejecicio 1
+#1)full join de las bases
+e_1=merge(base_1,base_2,by.x = "id",by.y="id",all = T)
+
+#2)quitar situacion.x
+e_2=select(e_1,-situacion.x)
+
+#3) filtrar los valor1 no es NA
+e_3=filter(e_2,!is.na(valor1))
+
+## Funcion  MUTATE
+## Creacion de nuevas  columnas en las bases
+## Se puede hacer  varias modificaciones al mismo tiempo, es decir, dentro de la  creacion de una primera, puedo utilizar la nueva creadad para otra variable dentro de la misma funcion
+b_7=mutate(base_total,valor1+valor2)
+
+e_4=mutate(e_3,cambio_deuda=valor1+valor2,tipo_cambio=ifelse(cambio_deuda<0,"disminuyo","aumento"))
+
+## Funcion  ARRANGE--> Order by
+## es de forma asc de forma predeterminada
+e_5=arrange(e_4,desc(cambio_deuda))
+
+#####################################################################
+#                     La librería “dplyr”                           #
+#####################################################################
+#Este operador permite ejecutar líneas de codigo de forma más corta y más rápida.
+
+base_a=merge(base_1,base_2,by.x = "id",by.y = "id",all.x = T)
+
+base_b= base_a %>%
+  select(-nombre.y,-situacion.y,-pago.y) %>%
+  filter(!is.na(valor2),!is.na(valor1)) %>%
+  mutate(cambio_deuda=valor1-valor2,tipo_cambio=ifelse(cambio_deuda<0,"disminuyo","aumento")) %>%
+  arrange(desc(valor2),desc(cambio_deuda))
+
+
+## exportacion de la informacion
+#1)R data-> solo disponible para r 
+#Save (base_b, #como se llama el formato)
+
+#2)Base a CSV
+#write.csv(base2, "baselimpia.csv")
+write.csv(base_b,"base_b")
+
+#3)TXT
+#write.table(base2, file="baselimpia.txt")
+
+#4)Excel--> NOTA: Los archivos  son mas pesados de lo usual, no es recomendable en extensas bases de datos.
+#library(xlsx)
+#write.xlsx(base2, “baselimpia.xlsx")
+
