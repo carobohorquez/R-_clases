@@ -1,0 +1,72 @@
+
+setwd("C:/base_1")
+
+install.packages("readxl")
+library(readxl)
+
+#4) importacion de los archivos a utilizar 
+base_4<- read_excel("base4.xlsx")
+#####################################################################
+#           Introducción al uso del paquete ggplot2                 #
+#####################################################################
+View(base_4)
+
+## Grafico de barras
+## #Gráfico de barras 1: sexo en frecuencias absolutas
+library(ggplot2)
+
+ggplot(base_4, aes(Col8)) +
+  geom_bar()
+
+#Gráfico de barras 2: sexo en frecuencias absolutas
+#en el apartado  de la geometria se hacen las modificaciones  del grafico 
+# buscar en la pagina de https://r-charts.com/es/ranking/grafico-barras-ggplot2/ las difentes tipo de graficas  y sus posible modificaciones a partir del codigo 
+ggplot(base_4, aes(Col8)) +
+  geom_bar(width = 0.4,  fill='#68228B') + 
+  scale_x_discrete("Genero") +
+  scale_y_continuous("Frecuencia") +
+  labs(title = "Grafico de Barras")+
+  #cood-> para cambiar el eje de vertical a horizontal
+    coord_flip()
+
+
+  
+## ORGANIZAR LAS BARRAS  Y AGREGAR LAS DESCRIPCIONES DE CADA BARRA 
+
+ggplot(base_4, aes(Col1)) +
+  geom_bar(width = 0.4,  fill='#68228B') + 
+  #limit-->  colocas la variables en el grafico de la forma en  que uno quiera
+  scale_x_discrete("Genero",limits = c("Stata","SAS","SPSS","R")) +
+  scale_y_continuous("Frecuencia") +
+  labs(title = "Gráfico de Barras",subtitle = "colocar subtitulo",caption = "pie de pagina")+
+  #coord_flip()+
+  #para agregar ver la informacion de cada barra, se pueden modificar los parametros de visualizacion
+  #se llama el tipo opracion estadistica  en la parte  de Stat
+  geom_text(aes(label =..count..), stat = "count", vjust = 6, colour = "white")
+
+
+## PARA QUE CADA BARRA TENGA SU PROPIO COLOR PERO SOLO LOS PREDETERMINADO
+ggplot(base_4, aes(Col1, fill=Col1)) +
+  #se quita el fill de geo_bar
+  geom_bar(width = 0.4) + 
+  scale_x_discrete("Genero",limits = c("Stata","SAS","SPSS","R")) +
+  scale_y_continuous("Frecuencia") +
+  labs(title = "Gráfico de Barras",subtitle = "colocar subtitulo",caption = "pie de pagina")+
+  geom_text(aes(label =..count..), stat = "count", vjust = 3, colour = "white")
+
+
+## PARA QUE CADA BARRA TENGA SU PROPIO COLOR PERSONALIZADO 
+ggplot(base_4, aes(Col1, fill=Col1)) +
+  #se quita el fill de geo_bar
+  geom_bar(width = 0.4,color="#1C1C1C", lwd = 0.5) + 
+  scale_x_discrete("Genero",limits = c("Stata","SAS","SPSS","R")) +
+  scale_y_continuous("Frecuencia") +
+  labs(title = "Gráfico de Barras",subtitle = "colocar subtitulo",caption = "pie de pagina",)+
+  geom_text(aes(label =..count..), stat = "count", vjust = 3, colour = "white")+
+  # se Agrega  los colores de las variables
+  scale_fill_manual(values = c("Stata"="#8B4789","SAS"="#CD69C9","SPSS"="#EE7AE9","R"="#FF83FA"))+
+  ## Cambio de leyenda  
+  theme(legend.position = "bottom")
+
+
+
