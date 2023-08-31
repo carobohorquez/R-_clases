@@ -1,0 +1,82 @@
+## Instalacion paquetes
+#1)  instalacion de los paquetes que contienen las librerias  
+#Comando para instalacion de paquete
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("readxl")
+
+#2) Instalacion de librerias 
+
+library(dplyr)
+library(tidyr) 
+library(readxl)
+
+#####################################################################
+#                                SEMANA 1                          #
+#####################################################################
+#Tabla de frecuencia relativa
+
+YY=c("St","St","St","St","St","St","P","P","P","P","P","P","P","P","P","Se",
+     "Se","Se","Se","Se","Se","Se","Se","Se","Se","Se","Se","T" ,"T","T",
+     "T","T","T","T", "T", "T", "T", "T", "U","U","U","U","U","U","U","U",
+     "U","U","U","U", "Ps","Ps","Ps","Ps","Ps","Ps","Ps","Ps","Ps","Ps")
+
+
+### al ser una variable ordinal, nosotros somos quieres debemos hacer el orden de las mismas
+##se crea la tablas primero
+YF = factor(YY, levels=c("St","P","Se","T", "U","Ps"))
+#ctrl + enter-> seleccionar la variable, para ver esta informacion
+T2 = table(YF) 
+
+# se creo un vector de la tabla, con el proposito de hacer modificaciones
+V2 = c(T2)
+
+## las operaciones de los vectores 
+#x/sum(x)-->c(x1/sum(x),x2/sum(x),x3/sum(x)...Xn/sum(x))
+data.frame(ni=V2, Ni=cumsum(V2), fi = V2/sum(V2), Fi=cumsum(V2/sum(V2)))
+
+### colocar la libreria desde posit
+
+library(readxl)
+base2 <- read_excel("/cloud/lib/base2.xlsx")
+View(base2)
+
+## se extrae solo la columna  de  donde voy a extraer la informacion 
+H=base2$situacion
+## se realiza una tabla 
+T3=table(H)
+## Se convierte en un vector para que pueda hacer las operaciones al verctor 
+V3=c(T3)
+frecuencias=data.frame(ni=V3, Ni=cumsum(V3),fi=V3/sum(V3),Fi=cumsum(V3/sum(V3)))
+
+
+### EJERCICIO
+## extraccion de la variale
+e=base2$pago
+## ordenar de forma ordinal
+e1= factor(e,levels=c("SUCURSAL1","SUCURSAL2","SUCURSAL3","SUCURSAL4","SUCURSAL5","SUCURSAL6","SUCURSAL7","SUCURSAL8","SUCURSAL9","SUCURSAL10"))
+## transformarla en una tabla 
+e2=table(e1)
+## convertirla en  un vector
+e3=c(e2)
+## realizar el data frame
+fe=data.frame(ni=e3, Ni=cumsum(e3), fi=e3/sum(e3), Fi=cumsum(e3/sum(e3)))
+View(fe)
+
+
+
+### QUE HACER CON LOS DATOS CUANTITATIVOS
+## ORGANIZAR POR INTERVALOS ORGANIZADOS DE MENOR A MAYOR 
+
+S = c(153,152,152,152,152,154,153,153,152,153,154,153,153,153,154,
+      154,153,154,153,155,155,156,157,153,158,157,156,158,154,158,
+      157,158,160,156,158,157,159,161,157,159,158,159,162,160,161,
+      158,159,163,164,162,159,161,164,164,163,159,161,164,165,164,
+      160,163,165,165,166,161,165,166,165,166,162,165,168,166,167,
+      164,166,168,166,168,165,166,169,167,169,166,167,169,168,170,
+      168,169,170,168,170,170,169,170,170,170)
+min(S)
+max(S)
+
+#Realizar la aplitud con las segmentaciones que queremos
+
