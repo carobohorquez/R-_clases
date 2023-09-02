@@ -1,0 +1,76 @@
+setwd("C:/Users/USUARIO/Desktop/Base_1")
+
+install.packages("readxl")
+library(readxl)
+#####################################################################
+#                      GRAFICOS MAPAS DE CALOR                      #
+#####################################################################
+
+#4) importacion de los archivos a utilizar 
+base_4<- read_excel("base4.xlsx")
+datos<- read_excel("datos1.xlsx")
+
+##CARGAR LA LIBRERIA 
+install.packages("dplyr")
+library(dplyr)
+## SE CREA UNA TABBLA DE FRECUENCIAS A NIVEL DE PROGRAMA Y GENERO
+tab1= base_4 %>% group_by (Col1,Col8) %>% summarise(frec=n())
+View(tab1)
+
+library(d)
+
+## ESCTRUCTURA DEL GRAFICO 
+#ggplot(df, aes(x = x, y = y, fill = value)) +
+ # geom_tile()
+## podemos cambiar los ejes de x e y para la grafica 
+ggplot(tab1, aes(x = Col1, y = Col8, fill = frec)) +
+          ## color cambiar  las lineas de color 
+  geom_tile(color = "black")+
+  geom_text(aes(label = frec), color = "white", size = 6)+
+             ## agregar la intensidad de color haciendo que  dependa de la concentracion 
+  scale_fill_gradient(low = "#FF69B4", high = "#8B3A62") 
+          ## para que salgan margenes a los graficos
+  coord_fixed()
+  
+  
+  #####################################################################
+  #                          GRAFICOS PALABAS                         #
+  #####################################################################
+  ## SE NECESITA UN TABLA DE FRECUENCIAS 
+  ## 1) INSTALACION DEL SIGUIENTE PAQUETE Y LIBRERIA
+  install.packages("ggwordcloud")
+  library(ggwordcloud)
+  tab2= datos %>% group_by (DEPARTAMENTO) %>% summarise(frec=n())
+  
+  ###
+  set.seed(1)
+  ggplot(tab2, aes(label = DEPARTAMENTO, size = frec)) +
+    geom_text_wordcloud() 
+  ## el theme minimal lo hace redondear 
+  theme_minimal()
+## ciudad
+  tab3= datos %>% group_by (CIUDAD) %>% summarise(frec=n())
+  
+  
+  set.seed(1)
+  ggplot(tab3, aes(label = CIUDAD, size = frec, color=frec)) +
+    geom_text_wordcloud()+
+    ##Ajusta el numero  de letra de la palabra mas grande
+    #geom_text_wordcloud(shape = "star")+
+    scale_size_area(max_size = 30)+
+    scale_color_gradient(low = "#A020F0", high = "#551A8B")
+    ## el theme minimal lo hace redondear 
+    theme_minimal()
+ 
+  
+    #####################################################################
+    #                          GRAFICOS      #
+    #####################################################################
+      # solo se necesita informacion numerica  y un dataframe
+          #ggplot(df, aes(x = group, y = y)) + 
+          #geom_boxplot()
+    
+    ggplot(datos, aes(y = PRIMA)) + 
+      geom_boxplot()
+    
+  
