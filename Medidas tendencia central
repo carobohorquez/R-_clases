@@ -80,3 +80,76 @@ max(S)
 
 #Realizar la aplitud con las segmentaciones que queremos
 
+
+#####################################################################
+#                           CLASE 02/09/2023                        #
+#####################################################################
+
+a=c(37,25,42,36)
+
+b=c(0.2,0.3,0.2,0.3)
+#Promedio simple
+mean(a)
+
+## promedio ponderado
+d=data.frame(a,b,c=a*b)
+
+sum (a*b)
+
+## Instalacion paquetes
+#1)  instalacion de los paquetes que contienen las librerias  
+#Comando para instalacion de paquete
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("readxl")
+
+#2) Instalacion de librerias 
+
+library(dplyr)
+library(tidyr) 
+library(readxl)
+
+##
+setwd("C:/Users/Ingenieria/Documents/Base")
+base4 <- read_excel
+base1 <- read_excel("Base1.xlsx")
+
+mean(base4$Col7)
+## extrae los datos con la medidas basicas
+summary(base4$Col7)
+options(scipen = 100, digits = 4)
+  
+  summary(base1$valor1)
+  
+  
+  
+#Calcular boxplot
+  boxplot(base4$Col7, horizontal = F)
+  boxplot(base1$valor1, horizontal = F)
+  
+  
+ba=filter(base1,valor1>=1600000)
+
+summary(ba)
+boxplot(ba$valor1, horizontal = F)
+
+
+
+# calulo de varianza
+mean(base4$Col7)
+var(base4$Col7)
+## desviacion estandar
+sd(base4$Col7)
+
+
+##VALOR 1
+mean(base1$valor1)
+var(base1$valor1)
+## desviacion estandar
+sd(base1$valor1)
+
+
+
+
+
+
