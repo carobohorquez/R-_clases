@@ -1,0 +1,74 @@
+## Instalacion paquetes
+#1)  instalacion de los paquetes que contienen las librerias  
+#Comando para instalacion de paquete
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("readxl")
+
+#2) Instalacion de librerias 
+
+library(dplyr)
+library(tidyr) 
+library(readxl)
+
+setwd("C:/Baasee")
+
+View(iris)
+
+library(ggplot2)
+
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width)) +
+  geom_point()
+
+
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+  geom_point()
+
+### crea elises  colocando un centro. los valores fiera se consideran atipicos
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+  geom_point()+
+  stat_ellipse()
+
+
+###
+ggplot(iris, aes(x = Petal.Length, y = Petal.Width, color = Species)) +
+  geom_point()+
+  stat_ellipse(geom = "polygon",aes(fill=Species),alpha=0.25)
+  ##Scale_fill_manual(species = c("setosa"="#8B4789","versicolor"="#CD69C9","virginica"="#EE7AE9"))
+
+
+
+## comparacion de  caracteristicas de dos variables
+
+
+ggplot(iris, aes(x = Sepal.Width, y = Petal.Width, color = Species)) +
+  geom_point()+
+  stat_ellipse(geom = "polygon",aes(fill=Species),alpha=0.25)
+
+
+#############################################################################
+#                                MAPAS                                      #
+#############################################################################
+install.packages("sf")
+library(sf)
+
+COLdep <- st_read("ColombiaDepartamentosPoblacion.geojson")
+
+
+
+ggplot(data = COLdep) +
+  geom_sf(fill="#FF1493", color="#8B0A50") 
+
+
+COLdep$Area_km2 = COLdep$AREA/1000000
+
+ggplot(data = COLdep) +
+  geom_sf(aes(fill = Area_km2))+
+  geom_sf_label(aes(label=DPTO_CNMBR),size=2)+
+  xlab("Longitud") + 
+  ylab("Latitud") +
+  ggtitle("Mapa de COLOMBIA",
+          subtitle = "Realizado por:Carolina Bohórquez B.")
+
+
+
