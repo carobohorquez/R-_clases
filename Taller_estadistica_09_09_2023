@@ -1,0 +1,92 @@
+setwd("C:/TALLER")
+#Comando para instalacion de paquete
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("readxl")
+
+## Instalacion de librerias 
+
+library(dplyr)
+library(tidyr) 
+library(readxl)
+
+# FRECUENCIAS
+base1= read_excel("BASE_1.xlsx")
+View(base1)
+base2= read_excel("BASE_2.xlsx")
+View(base2)
+## tabla de frecuencias
+#1)se extrae solo la columna  de  donde voy a extraer la informacion 
+v1=base1$DIAS_VIGENCIA
+#2) se convierte en tabla
+v2=table(v1)
+#3) se convierte en vector 
+
+v3=c(v2)
+
+frecuencia_a= data.frame(ni=v3, Ni=cumsum(v3),fi=v3/sum(v3),Fi=(v3/cumsum(v3)))
+View(frecuencia_a)
+
+
+## tabla de frecuencias punto 2
+#1)se extrae solo la columna  de  donde voy a extraer la informacion 
+z1=base2$NOM_SERVICIO
+View(z1)
+
+#2) se convierte en tabla
+z2=table(z1)
+#3) se convierte en vector 
+
+z3=c(z2)
+
+frecuencia_z= data.frame(ni=z3, Ni=cumsum(z3),fi=z3/sum(z3),Fi=(z3/cumsum(z3)))
+View(frecuencia_z)
+
+options(scipen = 100, digits = 4)
+
+
+### Variable  Prima
+
+p=filter(base1, DEPARTAMENTO=="GUAJIRA")
+pp=mutate(p,prima_total=PRIMA+CONTRIBUCION+FONSAT+FONVIAL+TASA_RUNT)
+View(pp)
+
+p1=pp$prima_total
+summary(p1)
+
+mean(p1)
+median(p1)
+sd(p1)
+
+
+
+### punto 4
+
+base3=merge(base1,base2,by.x ="CERTIFICADO",by.y = "CERTIFICADO", all=TRUE)
+View(base3)
+
+base3_a=filter(base3,NOM_MARCA=="VOLKSWAGEN")
+
+summary(base3_a$PRIMA.x)
+
+
+
+
+b3_a=(base3_a$PRIMA.x)
+
+mean(b3_a)
+max(b3_a)
+min(b3_a)
+median(b3_a)
+sd(base3_a$PRIMA.x)
+
+#### 
+base4=filter(base3,ANO_MODELO>2009,NOM_CLASE_SOAT=="MOTOCICLETA")
+
+b4=base4$CONTRIBUCION
+
+mean(b4)
+median(b4)
+max(b4)
+min(b4)
+sd(b4)
