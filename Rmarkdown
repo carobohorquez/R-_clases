@@ -1,0 +1,54 @@
+---
+title: '*¿Como realizar un archivo en html? Con RMARKDOWN*'
+output: html_document
+---
+
+
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Introducción
+
+La cantidad '#' deternima e tamano de la letra, lo que se puede ver como subtitulos
+en este espacio es para escribor lo que uno necesite. 
+introducciones dentro del Html
+esta es la pagina o paper que me permite ver los parametros
+
+https://virtual.konradlorenz.edu.co/pluginfile.php/810197/mod_resource/content/0/rmarkdown-cheatsheet.pdf
+
+
+## Insertar paginas  web 
+[Colocar video](https://www.youtube.com/watch?v=EGa5h0OStUY)
+
+##Insertar imagen
+
+###basica
+debe ser guardada en png
+
+![](images.png)
+
+```{r A, fig.align='center', fig.cap='...', out.width='50%'}
+knitr::include_graphics('images.png')
+```
+
+
+## crear espacios de codigo
+
+
+```{r echo=TRUE}
+
+head(iris)
+
+summary(iris$Sepal.Length)
+
+plot(iris$Sepal.Length)
+```
+
+$$5\cdot x^2 +3\cdot y$$
+$$\dfrac{19Z^5}{3x+2}$$
+
+$$\sqrt[3]{105}$$
