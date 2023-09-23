@@ -1,0 +1,71 @@
+## Conexion de las bases
+setwd("C:/Users/usuario/Documents/bases_analisis_caso_1")
+#1)  instalacion de los paquetes que contienen las librerias  
+#Comando para instalacion de paquete
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("readxl")
+
+#2) Instalacion de librerias 
+
+library(dplyr)
+library(tidyr) 
+library(readxl)
+
+###Unio entre indetificación  y emprendimiento
+base2= mutate(Modulo_de_identificacion,llave=paste(DIRECTORIO,"_",SECUENCIA_P,"_",SECUENCIA_ENCUESTA))
+View(base2)
+
+##
+base3= mutate(Modulo_de_emprendimiento,llave=paste(DIRECTORIO,"_",SECUENCIA_P,"_",SECUENCIA_ENCUESTA))
+View(base3)
+### Se hace el merge
+## se le realiza un inner join con el proposito de traer las columnas comunes 
+M1= merge(base2,base3,by.x = "llave",by.y="llave",all = F)
+View(M1)
+
+########################################################################################################
+
+#Unio entre Módulo de sitio o ubicación/Modulo de inclusion financiera
+
+##Modulo_de_inclusion_financiera
+base4= mutate(Modulo_de_inclusion_financiera ,llave=paste(DIRECTORIO,"_",SECUENCIA_P,"_",SECUENCIA_ENCUESTA))
+View(base4)
+
+##Modulo_de_sitio_o_ubicacion
+base5= mutate(Modulo_de_sitio_o_ubicacion,llave=paste(DIRECTORIO,"_",SECUENCIA_P,"_",SECUENCIA_ENCUESTA))
+View(base5)
+
+### Se hace el merge
+## se le realiza un inner join con el proposito de traer las columnas comunes 
+
+M2= merge(base4,base5,by.x = "llave",by.y="llave",all = F)
+View(M2)
+
+
+### MODULO tic
+base6= mutate(Modulo_de_TIC ,llave=paste(DIRECTORIO,"_",SECUENCIA_P,"_",SECUENCIA_ENCUESTA))
+View(base6)
+
+
+#### UNION prefinal
+
+M3=merge(M1,M2,by.x = "llave",by.y = "llave",all = F)
+View(M3)
+
+
+M4=merge(M3,base6,by.x = "llave",by.y = "llave",all = F)
+View(M4)
+
+M5=merge(Costos_Ventas2,merge_Caracteristicas_propietario,by.x = "llave",by.y = "llave",all = F)
+
+M6=merge(M4,M5,by.x = "llave",by.y = "llave",all = F)
+
+
+
+write.csv(M6, "base_prefinal.csv", row.names=FALSE)
+
+
+
+
+
