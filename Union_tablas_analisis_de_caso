@@ -64,6 +64,92 @@ M6=merge(M4,M5,by.x = "llave",by.y = "llave",all = F)
 
 
 write.csv(M6, "base_prefinal.csv", row.names=FALSE)
+##################################################################################################
+## Conexion de las bases
+
+#1)  instalacion de los paquetes que contienen las librerias  
+#Comando para instalacion de paquete
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("readxl")
+
+#2) Instalacion de librerias 
+
+library(dplyr)
+library(tidyr) 
+library(readxl)
+
+setwd("C:/Users/HABI/Documents/Tableros_Caro/Especializacion")
+base_final<- read_excel("base_prefinal.xlsx")
+View(base_final)
+
+
+### SE ELIMINA LOS CAMPOS DUPLICADOS EN LA BASE 
+base_filtrada<- select(base_final,
+                       - AREA.x.x.x,
+                       - AREA.x.x.y,
+                       - AREA.x.y.x,
+                       - AREA.x.y.y,
+                       - AREA.y.x.x,
+                       - AREA.y.x.y,
+                       - AREA.y.y.x,
+                       - AREA.y.y.y,
+                       - CLASE_TE.x.x.x,
+                       - CLASE_TE.x.x.y,
+                       - CLASE_TE.x.y.x,
+                       - CLASE_TE.x.y.y,
+                       - CLASE_TE.y.x.x,
+                       - CLASE_TE.y.x.y,
+                       - CLASE_TE.y.y.x,
+                       - CLASE_TE.y.y.y,
+                       - COD_DEPTO.x.x.x,
+                       - COD_DEPTO.x.x.y,
+                       - COD_DEPTO.x.y.x,
+                       - COD_DEPTO.x.y.y,
+                       - COD_DEPTO.y.x.x,
+                       - COD_DEPTO.y.x.y,
+                       - COD_DEPTO.y.y.x,
+                       - COD_DEPTO.y.y.y,
+                       - DIRECTORIO.x.x.x,
+                       - DIRECTORIO.x.x.y,
+                       - DIRECTORIO.x.y.x,
+                       - DIRECTORIO.x.y.y,
+                       - DIRECTORIO.y.x.x,
+                       - DIRECTORIO.y.x.y,
+                       - DIRECTORIO.y.y.x,
+                       - DIRECTORIO.y.y.y,
+                       - SECUENCIA_ENCUESTA.x.x.x,
+                       - SECUENCIA_ENCUESTA.x.x.y,
+                       - SECUENCIA_ENCUESTA.x.y.x,
+                       - SECUENCIA_ENCUESTA.x.y.y,
+                       - SECUENCIA_ENCUESTA.y.x.x,
+                       - SECUENCIA_ENCUESTA.y.x.y,
+                       - SECUENCIA_ENCUESTA.y.y.x,
+                       - SECUENCIA_ENCUESTA.y.y.y,
+                       - SECUENCIA_P.x.x.x,
+                       - SECUENCIA_P.x.x.y,
+                       - SECUENCIA_P.x.y.x,
+                       - SECUENCIA_P.x.y.y,
+                       - SECUENCIA_P.y.x.x,
+                       - SECUENCIA_P.y.x.y,
+                       - SECUENCIA_P.y.y.x,
+                       - SECUENCIA_P.y.y.y)
+ View(base_filtrada)
+ 
+ 
+depar<-read_excel("departamentos_base.xlsx")
+dd<- select(depar,codigo_departamento,	nombre_departamento)
+
+base_final<-merge(base_filtrada,dd,by.x="COD_DEPTO",by.y ="codigo_departamento",all.x = T)
+
+
+View(base_final)
+ 
+write.csv(base_final, "base_final", row.names=FALSE)
+ 
+
+
+
 
 
 
