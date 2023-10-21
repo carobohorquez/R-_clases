@@ -1,0 +1,69 @@
+dP=c(0,0.5,1,1.5,2,2.5,3)
+pxx=c(0.1,0.25,0.05,0.07,0.08,0.25,0.2)
+sum(dP)
+e_x=dP*pxx
+## valor esperado
+ex=sum(e_x)
+ex2=sum(dP*dP*pxx)
+## varianza
+varX=ex2-ex^2
+desvr=sqrt(varX)
+
+## Funcion de combinatoria
+# hasta el momento se debe sacar por medio de factoriales
+factorial(5)/(factorial(3)*factorial(2))
+
+############## DISTRIBUCION BINOMIAL#########################
+## se coloca  primero en la función dbinom
+#1. el m es la probabilidad que queremos evaluar
+#2. n es la cantidad de elementos con los que cuenta el ejercicio
+#3. es la probabilida de exito, conocida  previamente
+
+
+##Ejercio 1:
+# Calcular la probabilidad de en una luces de 20 bombillos, existan 2 defectuosos, si se conoce por el fabricante que la probabilida de ocurrencia es del 8%
+dbinom(2,20,0.08)
+
+#Ejercicio 2: 
+n=15
+p=0.2
+px_0=dbinom(0,n,p)
+
+px_4=dbinom(4,n,p)
+
+options(scipen = 100, digits = 4)
+
+### probabilidad de que sea mayor a 10
+## Forma mia
+px_more10=dbinom(11,n,p)+dbinom(12,n,p)+dbinom(13,n,p)+dbinom(14,n,p)+dbinom(15,n,p)
+## mejor
+px_more10_1=sum(dbinom(11:15,n,p))
+## menor o igual
+## 1-pbinom(10,15,0.2)
+
+p1=0.35 ## probabilidad de germinación de las semillas 
+n1=32 ## cantidad de semillas sembradas
+
+## menos de 12 semillas germinen
+## siempre incluir el cero, ya que siempre se contempla a posibilidad de que no ocurra el evento
+a1=sum(dbinom(0:11,n1,p1))
+## que germinen entre 20 o mas semillas, pero menos de 30
+a2=sum(dbinom(20:29,n1,p1))
+# que germinen 16 o mas semillas
+a3=1-pbinom(15,n1,p1)
+
+# el promedio germinan 11.2 semillas para este conjunto de elementos que es 32 semillas
+valor_esperado_binomial=p1*n1
+varianza_binomial=n1*p*(1-p)
+desviacion_estandar_binomial=sqrt(varianza)
+
+################## Distribución hipergeométrica ########################
+# Suponga que usted tiene 30 frascos de los cuales 4 tienen cocaina y la policia toma
+# al azar 3 frascos a revisar. 
+# ¿cual es la probabilidad de encontrar 1 frasco con cocaina?
+
+N=30 ## tamaño de la muestra
+M=4 ## grupo especial 
+n=3## grupo donde se va a evaluar aleatoriamente
+N_M=30-4# grupo donde no se va a encontrar e l evento
+p_1=dhyper(1,M,N_M,n)
