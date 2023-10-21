@@ -1,0 +1,60 @@
+--
+title: "Regresión lineal"
+author: "Carolina Bohorquez"
+date: "2023-10-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# regresión Lineal
+## Cargar la información
+En el siguiente chuc vamos a cragar los datos de grasa 
+```{r}
+#Comando para instalacion de paquete
+
+#install.packages("dplyr")
+#install.packages("tidyr")
+#install.packages("readxl")
+
+## Instalacion de librerias 
+#library(dplyr)
+#library(tidyr) 
+#library(readxl)
+
+## Se da en la opcion de la c+ ahi es  donde podemos escoger que tipo de codigo vamos a tener
+# se debe especificar en "sep=" el caracter que va a separar los datos
+
+#library(readr)
+grasa <- read.csv("C:/Users/USUARIO/Documents/BASE/grasa.txt",sep="")
+head(grasa)
+##View(grasa)
+```
+## Correlación Lineal
+Se considera que dos variables cuantitativas están correlacionadas cuando los valores de una de ellas varían linealmente con respecto a los valores de la otra. Si tenemos dos variables A
+ y B
+ se dice que existe correlación entre ellas si al disminuir los valores de A lo hacen también los de B o viceversa.
+ 
+ Vamos a correr la correlacion de dos variables
+```{r}
+## Comando corr donde se especifica las variables 
+#-->entre mas crece la grasa mas crece el peso 
+cor(grasa$peso,grasa$grasas)
+
+### para crear una matriz de correlacion entre todas la variables de la base de datos
+cor(grasa)
+```
+ 
+# correr un modelo lineal
+```{r}
+## primero y  y despues el x
+# lo que eesta despues de la coma es la base 
+Mrl <-lm(grasas~edad,data=grasa)
+summary(Mrl)
+
+## es un poco mas preciso el Adjusted R-squared
+## estimate 
+# grasa=102.5751 + 5.3207 *edad+43.46
+102.5751 + 5.3207 *52+43.46
+```
