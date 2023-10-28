@@ -1,0 +1,104 @@
+
+########################## DISTRIBUCION BINOMIAL #########################
+## se coloca  primero en la función dbinom
+#1. el m es la probabilidad que queremos evaluar
+#2. n es la cantidad de elementos con los que cuenta el ejercicio
+#3. es la probabilida de exito, conocida  previamente
+
+#ejercicio
+n=25
+p=4/10
+
+#1) probabilidad de que menos de 10 viviendas tengan extintor
+p_1=sum(dbinom(0:9,n,1-p))
+
+#2) probabilidad de que mas de 15 viviendas no tengan extintor 
+p_2=sum(dbinom(16:25,n,p))
+
+#3)probabilidad que entre 6 y 9 viviendas tengan extintor
+p_3=sum(dbinom(6:9,n,1-p))
+
+## otra forma de hacerlo 
+p_3_2=pbinom(9,n,1-p)-pbinom(5,n,1-p)
+
+
+################## Distribución hipergeométrica ########################
+
+
+#EJECICIO PIOJOS
+N=21 ## tamaño de la muestra
+M=7 ## grupo especial que conocemos que presenta el evento 
+n=4## grupo donde se va a evaluar aleatoriamente
+N_M=21-7# grupo donde no se va a encontrar e l evento
+
+#1) prob.de que exactamente 3 niños tengan piojos 
+  ph_1=dhyper(3,M,N_M,n)
+#2) prob de que menos de 2 niños tengan piojos 
+  ph_2=sum(dhyper(0:1,M,N_M,n))
+#3) prob. que entre 2 y 3 tengan piojos
+  ph_3=sum(dhyper(2:3,M,N_M,n))
+#4)valor esperado E(x), varianza Var(x), desviación estandar desv
+#4.1) valor esperado:
+  exh=n*(M/N)
+#4.2) viarianza:#OJO!!:tener cuidado con los parentesis en la formula
+  var_h=n*(M/N)*(N_M/N)*((N-n)/(N-1))
+#4.3) desviación estandar:
+  desv_h=sqrt(var_h)
+
+  
+  
+  
+#EJERCICIO CERTIFICADO DE ALTURAS
+    ## para el grupo en donde SI!! se tene el certificado de alturas
+  N1=30 ## tamaño de la muestra
+  M1=7 ## grupo especial que conocemos que presenta el evento 
+  n1=10## grupo donde se va a evaluar aleatoriamente
+  N_M1=30-7# grupo donde no se va a encontrar e l evento
+
+    ## para el grupo en donde NO!! se tene el certificado de alturas
+  N2=30 ## tamaño de la muestra
+  M2=23 ## grupo especial que conocemos que presenta el evento  
+  n2=10## grupo donde se va a evaluar aleatoriamente
+  N_M2=30-23# grupo donde no se va a encontrar e l evento
+
+#1)probabilidad de que 5 o menos no tengan curso de alturas
+  ph_p1=sum(dhyper(0:5,23,7,10))
+#2)probabilidad que mas de 4 tengan el curso de alturas
+  ph_p2=sum(dhyper(5:10,M1,N_M1,n1))
+  ph_p22=1-phyper(4,M1,N_M1,n1) #otra forma 
+#3)probabilidad que entre 3 y 9 no tengan el curso
+  ph_p3=sum(dhyper(3:9,23,7,10))
+#4)varianza de que no tengan el curso de alturas
+  ##la varianza  asi se vea por que si o no tiene 
+  var_h1= n2*(M2/N2)*(N_M2/N2)*((N2-n2)/(N2-1))
+  
+
+##################### Distribución de Poisson ##################################
+  ## se coloca  primero en la función dpois
+  #1. el m es la probabilidad que queremos evaluar
+  #2. l el promedio de veces que se presenta el evento en una magnitud de medida dada
+
+  #1) probabilidad que en 2 horas lleguen a exactamente 12 aeronaves
+  m1=12
+  l1=8 ## por hora
+    po_1=dpois(m1,l1*2)
+  #2) probabilidad que lleguen mas de 16 aeronaves en 3 horas 
+    po_2=1-ppois(16,l1*3)
+  #3)Probabilidad que lleguen entre 2 y 5 aeronaves en 32 minutos
+    # se recomienda manejar fracciones, para no perder precisión en los calculos en terminos de decimales
+    po_3=sum(dpois(2:5,64/15))
+## EJERCICIO
+# Suponga que un fabricante afirma que el promedio de los errores por metro
+#lineales de 1,4.Calcular la probabilida de que:
+    
+#IMPORTANTE!!!!: no importa siempre debemos hacer la conversion del landa a los valores para sacar las metricas
+    l2=1.4 # en METROS
+#1)en 5.7 metros se encuentren mas de 5 errores
+    l3=1.4*5.7
+    po_11=1-ppois(5,l3)
+#2)probabilidad que en 15,2 metros se encuentren menos de 12 errores
+    l4=1.4*15.2
+    po_12=ppois(11,l4)
+#3)probabilidad que en 70 cm se encuentre 1 error
+    l5=(1.4*70)/100
+    po_13=dpois(1,l5)
