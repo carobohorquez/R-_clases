@@ -1,0 +1,128 @@
+## Taller  estadistica d
+
+
+#Se sabe que en una población 4 de cada 13 vehículos revisados no cuentan con cinturón de seguridad en el asiento trasero. Si para confirmar esto se tomó una muestra de 16 vehículos, calcular:
+
+## se coloca  primero en la función dbinom
+#1. el m es la probabilidad que queremos evaluar
+#2. n es la cantidad de elementos con los que cuenta el ejercicio
+#3. es la probabilida de exito, conocida  previamente
+
+#ejercicio
+n=16
+p=4/13 # probabilidad de que no tengan cinturon de seguridad
+
+#1) La probabilidad que por lo menos 9 tengan cinturón de seguridad.
+p_1=sum(dbinom(0:9,n,1-p))
+
+#2) La probabilidad que más de 3 no tengan cinturón de seguridad. 
+p_2=1-pbinom(3,n,p)
+
+#3)La probabilidad que 1 o más, pero menos de 7 de los vehículos no tengan cinturón de seguridad.
+p_3=sum(dbinom(1:6,n,p))
+
+
+
+#4)Calcular la varianza si la variable mide los que tienen cinturón de seguridad.
+##n*p*(1-p)
+#Calcular la varianza si la variable mide los que tienen cinturón de seguridad.
+16*(9/13)*(9/13)
+#Calcular la media si la variable mide los que tienen cinturón de seguridad.
+16*(9/13)
+
+
+
+
+
+################## Distribución hipergeométrica ########################
+N=23 ## tamaño de la muestra
+M=10 ## grupo especial que conocemos que presenta el evento 
+n=7 ## grupo donde se va a evaluar aleatoriamente
+N_M=23-10 # grupo donde no se va a encontrar e l evento
+
+
+#1)la probabilidad que ninguna planta de la muestra haya recibido el fertilizante.
+ph_1=dhyper(0,M,N_M,n)
+phyper(0,M,N_M,n)
+
+#2)la probabilidad que más de 6 plantas no hayan recibido el fertilizante.
+1-phyper(6,13,10,7)
+
+#3)la probabilidad que menos de 2 plantas hayan recibido el fertilizante.
+phyper(1,M,N_M,n)
+
+#4.1) valor esperado:
+exh=n*(M/N)
+#4.2) varianza:#OJO!!:tener cuidado con los parentesis en la formula
+var_h=n*(M/N)*(N_M/N)*((N-n)/(N-1))
+
+####   PUNTO 3
+## se coloca  primero en la función dbinom
+#1. el m es la probabilidad que queremos evaluar
+#2. n es la cantidad de elementos con los que cuenta el ejercicio
+#3. es la probabilida de exito, conocida  previamente
+
+#Un fabricante de bombillos afirma que sólo el 15% de sus focos se funden antes del primer mes.
+#Para investigar esta afirmación, se adquieren 27 unidades y se someten a una prueba para simular el uso. Calcular:
+
+#1)P(X=5)
+dbinom(5,27,0.15)
+
+#2)P(1<X<13)
+sum(dbinom(2:12,27,0.15))
+
+#3)P(X≥20)
+options(scipen = 100, digits = 4)
+1-pbinom(19,27,0.15)
+#4) E(X)
+27*0.15
+
+sqrt(27*0.15*0.85)
+
+#Supongamos que el número de imperfecciones en un alambre delgado de cobre 
+#sigue una distribución Poisson con una media de 3 imperfecciones por cada 13.5 milímetros.
+
+#1)Determine la probabilidad de que haya 6 o menos imperfecciones en 40 milímetros de alambre. 
+40*3
+a=sum(dpois(0:6,120))
+
+
+#Una marca de cámaras digitales vienen en una versión de 25 megapixeles o en una versión especial de 35 megapixeles. Una tienda de cámaras recibió un envío de 19 de esta marca de cámaras, de las cuales sólo 12 tienen una resolución de 34 megapixeles. Suponga que se seleccionan al azar 7 de las cámaras para exhibirlas en el mostrador. Sea X
+#el número de cámaras de 34 megapixeles entre las 7 cámaras seleccionadas. A partir de esta información calcular:
+################## Distribución hipergeométrica ########################
+N=19 ## tamaño de la muestra
+M=12 ## grupo especial que conocemos que presenta el evento 
+n=7 ## grupo donde se va a evaluar aleatoriamente
+N_M=19-12 # grupo donde no se va a encontrar e l evento
+
+#1)P(X=4)
+dhyper(4,M,N_M,n)
+#2)P(X<5.5)
+dhyper(0,M,N_M,n)
+
+var_h=n*(M/N)*(N_M/N)*((N-n)/(N-1))
+
+o=sqrt(var_h)
+u=(n*M)/N
+
+u-o
+u+o
+
+sum(dhyper(3:5,M,N_M,n))
+
+##Supongamos que el número de imperfecciones en un alambre delgado de cobre sigue una distribución Poisson
+##con una media de 3 imperfecciones por cada 13.5 milímetros.
+
+#1)Determine la probabilidad de que haya 6 o menos imperfecciones en 40 milímetros de alambre.
+
+sum(dpois(0:6,((3*40)/13.5)))
+
+#2)Determine la probabilidad de haya más de 3 imperfecciones en 2 milímetros de alambre.
+1-ppois(3,((3*2)/13.5))
+
+#3)Determine la probabilidad de haya entre 1 y 5 imperfecciones (inclusivo) en 13.5 milímetros de alambre.
+sum(dpois(1:5,13.5))
+
+
+
+
