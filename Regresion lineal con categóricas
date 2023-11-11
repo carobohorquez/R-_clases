@@ -1,0 +1,50 @@
+### clase
+## especificar siempre al rograma cual es la variable categoricas convirtiendolas a Dummy 
+
+#Comando para instalacion de paquete
+
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("readxl")
+
+## Instalacion de librerias 
+library(dplyr)
+library(tidyr) 
+library(readxl)
+## por cada variable categorica,el contenido del campo tenemos por ejemplo:
+  var_cate=c("Bog","Cali","Med")
+# organizar 
+
+  library(readxl)
+  houses <- read_excel("C:/base_1/houses.xlsx")
+  View(houses)
+  ## Depuracion del modelo revisado R ajustad y la varianza como parametros de comparación entre
+    #las iteraciones de los difentes modelos  y las condiciones de cada uno.
+
+modelo1=lm(Precio ~ .,data=houses)
+summary(modelo1)
+
+modelo2=lm(Precio ~Impuestos+Camas+Nuevo+TamaNo,data=houses)
+summary(modelo2)
+#
+modelo3=lm(Precio ~Impuestos+Camas+TamaNo,data=houses)
+summary(modelo3)
+
+
+salarios <- read_excel("C:/base_1/salarios.xlsx")
+View(salarios)
+
+modelo_a=lm(Salary ~ .,data=salarios)
+summary(modelo_a)
+
+##por medio de la metrica AKAIKE mejor combinacion revisando como las variablesdentro del modelo afectan
+step(modelo_a)
+
+##cuando tenemos niveles de significancia altos, el R cuadrado y ajustado suelen tenen un menor deferencia
+  # y sucede, entre menos significancia mas es  la diferencia entre las dos metricas
+modelo_b=lm( Salary ~ Age + Place + Weight + `Academic degree`, data = salarios)
+summary(modelo_b)
+
+
+modelo_c=lm( Salary ~ Age + Place  + `Academic degree`, data = salarios)
+summary(modelo_c)
