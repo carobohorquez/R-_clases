@@ -14,6 +14,8 @@ p=4/13 # probabilidad de que no tengan cinturon de seguridad
 
 #1) La probabilidad que por lo menos 9 tengan cinturón de seguridad.
 p_1=sum(dbinom(0:9,n,1-p))
+1-pbinom(16,n,1-p)--> correcto
+
 
 #2) La probabilidad que más de 3 no tengan cinturón de seguridad. 
 p_2=1-pbinom(3,n,p)
