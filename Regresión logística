@@ -1,0 +1,47 @@
+library(readxl)
+library(tidyverse)
+library(readxl)
+credito <- read_excel("C:/Users/USUARIO/Downloads/Credito01 (1).xlsx")
+View(Credito01_1_)
+str(credito) ## hace una descrpcion de la varaibles de la tabla 
+#1) es iportante tener en claro la definicion de cual es la variable de exito a revisar
+summary(credito$default)
+library(caTools) ## OJO: respeta la proporcion  originial de la base para hacer la partición  de los datos  cuando se quiere hacer el train y el test del modelo
+
+split <- sample.split(credito$default, SplitRatio = 0.70)#--> aqui estamos definiendo que proporcion del grupo train
+train <- subset(cbind(credito,split), cbind(credito,split)$split == TRUE)
+test <- subset(cbind(credito,split), cbind(credito,split)$split == FALSE)
+
+#revisar las proporciones entre "train" y "test"
+prop.table(table(test$default))
+prop.table(table(train$default))
+
+## MODELADO
+
+MODRegLog <- glm(train$default ~ ., data = train[,c(-17,-18)], family = "binomial") 
+summary(MODRegLog)
+
+### conocer la calsificacion de poblado de los datos y tambien como esta repartida en el campo
+table(train$purpose)
+
+### Matriz de confucion
+## nosotros definimos a que proporcion o porbalidad se toma como 1 o cero dentro de la matriz de confusion.
+
+## se quitan la variable  para que no este en el modelo
+pred1<- predict.glm(MODRegLog,newdata = test[,c(-17,-18)], type="response")
+result1<- table(test$default, floor(pred1+0.3))
+result1
+
+
+step(MODRegLog, direction = "both")## que sube o baja en terminos del modelo, que revise hacia arriba y hacia abaj0
+
+modelo_1=glm(formula = train$default ~ checking_balance + months_loan_duration + 
+      amount + savings_balance + employment_duration + percent_of_income + 
+      age + other_credit + housing + phone, family = "binomial", 
+    data = train[, c(-17, -18)])
+summary(modelo_1)
+
+## matriz dew confusion parte 2 
+pred2<- predict.glm(modelo_1,newdata = test[,c(-17,-18)], type="response")
+result2<- table(test$default, floor(pred2+0.2))
+result2
