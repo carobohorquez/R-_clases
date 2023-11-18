@@ -1,0 +1,68 @@
+## clase 18-11-2023
+  #PRUEBA DE HIPÓTESIS CUANDO SE CONOCE LA DESVIACIÓN DE LA POBLACIÓN
+
+  # Supongamos que una maquina de llenado se distribuye normal con media de 500 gr y desviación de 6gr.
+  # La maquina se quemó y debio ser reemplazada una parte de las boquillas de llenado y parte de la electrónica. 
+  # Para ponerla a funcionar se debe asegurar que se mantengan los parámetros de llenado medio de la maquina.
+  # La muestra tomada dio los siguientes resultados:
+  # Si se hace una prueba de hipótesis con significancia del 95% a que conclusión se puede llegar y se debe mandar a calibrar la maquina?
+
+# H0 -> U = 500
+# H1 -> u != 500
+
+a=c(505, 506, 501, 509, 495, 489, 496, 485, 499, 499, 509, 507, 506, 493)
+m=mean(a)
+n=length(a)
+    #1) con esto se obtine la region de rechazo
+z=qnorm(0.025,0,1)
+
+    #2)con esto sacamos el valor de comparacion, para ubicarlos en valores aptos 
+Zc=(m-500)/(6/sqrt(n))
+
+#------------------------------------------------------------------------------------------------------------------------------------
+  #El tiempo de secado de una pintura de carro se distribuye Normal con media de 27 min y desviación de 9 min. 
+  #El ingeniero quiere probar un nuevo acelerante y mezcla la pintura con el acelerante y toma la siguiente muestra
+  b=c(21,20,21,19,  17,  23,  25,  21,  19,  16,  21,  19,  18,  16,  20,  20,  19,  22,  21,  19,  15) 
+  #Para un nivel de significancia de 92%, calcule las hipotesis adecuadas y determine si vale la pena comprar el acelerante.
+
+  # H0 --> U >= 27
+  # H1 --> u < 27
+  ## Existe suficientes datos para rechazar la hipotesis nula
+
+  # 1) nivel de signficancia
+  # al ser de una cola, se debe no se divide por 2 
+  z=qnorm(0.08,0,1)
+
+  #2) comparacion
+  mb=mean(b)
+  nb=length(b)
+  Zc=((mb)-27)/(9/sqrt(nb))
+  
+  
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  #La edad de los hombres que se someten a una prueba de prostata por primera vez, se distribuye Normal con media de 47 años y desviación de 11 años. 
+  #Para disminuir esos promedios se  contrató una campaña publicitaria con humoristas e "influencers" y se obtuvo la siguiente muestra de edades después de 2 meses 
+  c=c(36,  32,  47,  51,  52,  51,  47,  41,  42,  39,  36,  70,  68,  61,  62,  49,  46,  51,  57, 39,  39,  36,  35,  38,  47,  44,  56,  71,  51)  
+  #Calcule una prueba de hipótesis a dos colas con 90%
+  #y una prueba a izquierda con la misma significancia para determinar si valió la pena la campaña
+##DOS COLAS  
+  # H0 -> U = 47
+  # H1 -> u != 47
+  z1=qnorm(0.05,0,1)
+  mc=mean(c)
+  nc=length(c)
+  Zc=((mc)-47)/(11/sqrt(nc))
+  # z1=-1.64853 y zc= 0.053323
+  #  No se rechaza la hipotesis Nula
+  
+##COLA IZQUIERDA
+  # H0 --> U >= 47
+  # H1 --> u < 47
+  z2=qnorm(0.1,0,1) #Zona de rechazo
+  mc=mean(c)
+  nc=length(c)
+  Zc=((mc)-47)/(11/sqrt(nc))
+  # z2=-1.28155 y zc= 0.053323
+  # No se rechaza la hipotesis Nula
+  
+  
