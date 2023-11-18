@@ -1,0 +1,51 @@
+      # PRUEBA DE HIPÓTESIS CUANDO SE DESCONOCE LA DESVIACIÓN DE LA POBLACIÓN #
+## la desviación es muestral, NO de la población 
+# No conocemos la desviación usualmente nos dan el promedio
+
+
+# El nivel de hierro en sangre se distribuye normal con media de 20 micromoles por litro. 
+# A un grupo de pacientes se les administró un nuevo medicamento con el propósito de revisar si aumentaban los niveles de hierro. 
+# Después de 6 mese de tratamiento se tomaron muestras de sangre y se obtubieron los siguientes resultados.
+a=c(21,23,30,29,19,16,16,21,21,21,16,17,18,23,27,28,29,31,31)  
+#Calcule una prueba de hipótesis apropiada y utilice un nivel de significancia del 97%
+
+# H0 --> U <= 20
+# H1 --> u > 20
+#1) Caculo de n
+n=length(a)
+#2) calcular el percenti, con esto  tenemos la zona de rechazo
+pt=qt(0.03,n-1,lower.tail = F)
+#3) calculo de comparación 
+m=mean(a)
+des=sd(a)
+
+tc=(m-20)/((des/sqrt(n)))
+# tenemos pt=2.00706 y tc= 2.409885
+# se rechaza la hipotesis Nula
+
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#  En una región el promedio de salario de los contadores se distribuye normal con media de 1.150.000. 
+#  Para mejorar la situación de la profesión la asociación de contadores envió un comunicado a sus afiliados solicitando no aceptar puestos que ofrezcan menos de 1.000.000 (neto) de salario. 
+#  Después de 3 meses se realizó una muestra con el propósito de revisar el promedio salarial de los contadores y los resultados fueron.
+
+b=c(1100,1450,960,1260,1450,900,1450,1350,1780,1420,1360,910,990,1100,1500)
+
+#  (cifras en miles) 
+#  Calcule una prueba de hipótesis (96%) a partir de los valores de la muestre y determine que pasó con el mercado laboral de contadores en esta región.
+#  como el promedio de la muestra de estudio es mayor, siendo de 1265, entonces  debemos  tomar la cola  a la derecha, para validar si efectivamente esta funcionando la inicitiva del caso.
+m=mean(b)
+# H0 --> U <= 1150
+# H1 --> u > 1150
+
+#1) calculo de n
+n=length(b)
+
+#2) calcular el percenti, con esto  tenemos la zona de rechazo
+pt=qt(0.04,n-1,lower.tail = F)
+
+#3) calculo de comparación 
+des=sd(b)
+tc=(m-1150)/((des/sqrt(n)))
+ # tenemos pt=1.8874 y tc= 1.71858
+# No se rechaza la hipotesis Nula
