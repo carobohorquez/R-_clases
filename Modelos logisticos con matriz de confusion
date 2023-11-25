@@ -1,0 +1,124 @@
+library(readxl)
+library(tidyverse)
+library(readxl)
+credito <- read_excel("C:/Users/USUARIO/Downloads/Credito01 (1).xlsx")
+View(Credito01_1_)
+str(credito) ## hace una descripcion de la varaibles de la tabla 
+#1) es iportante tener en claro la definicion de cual es la variable de exito a revisar
+summary(credito$default)
+library(caTools) ## OJO: respeta la proporcion  originial de la base para hacer la partición  de los datos  cuando se quiere hacer el train y el test del modelo
+
+split <- sample.split(credito$default, SplitRatio = 0.80)#--> aqui estamos definiendo que proporcion del grupo train
+train <- subset(cbind(credito,split), cbind(credito,split)$split == TRUE)
+test <- subset(cbind(credito,split), cbind(credito,split)$split == FALSE)
+
+### Matriz de confusión 
+
+
+## MODELADO
+
+MODRegLog <- glm(train$default ~ ., data = train[,c(-17,-18)], family = "binomial") 
+summary(MODRegLog)
+
+### conocer la calsificacion de poblado de los datos y tambien como esta repartida en el campo
+table(train$purpose)
+
+### Matriz de confucion
+## nosotros definimos a que proporcion o porbalidad se toma como 1 o cero dentro de la matriz de confusion.
+
+## se quitan la variable  para que no este en el modelo
+pred1<- predict.glm(MODRegLog,newdata = test[,c(-17,-18)], type="response")
+result1<- table(test$default, floor(pred1+0.3))
+result1
+
+step(MODRegLog, direction = "both")## que sube o baja en terminos del modelo, que revise hacia arriba y hacia abaj0
+### Revia un a 1 los modelos, quitando variables que afecten negativamente el modelo
+
+
+modelo_2= glm(formula = train$default ~ checking_balance + months_loan_duration + 
+                credit_history + amount + savings_balance + employment_duration + 
+                percent_of_income + age + other_credit + existing_loans_count + 
+               phone, family = "binomial", data = train[, c(-17, -18)])
+
+
+summary(modelo_2)
+
+pred1<- predict.glm(modelo_2,newdata = test[,c(-17,-18)], type="response")
+result1<- table(test$default, floor(pred1+0.3))## preditivo(probablidad) + 0.3--> nosotros clasificamos agregando, si es mayor a 1 lo coloca como 1, en caso contrario es 0
+result1                                        ## esto tambien puede cambiar los accuracy 
+
+            
+##Accurracy--> cuanto del modelo esta bien representado vs el valor original
+## sensibilidad--> TP/(TP+FN)--> son los malos que quedan bien clasificados
+##Specificity-->  TN/(TN+FP)--> los buenos que estan bien clasificados 
+
+library(ROCR)### como sacar las curva de roc
+
+pred = ROCR::prediction(pred1,test$default)
+perf <- performance(pred, "tpr", "fpr")
+plot(perf)
+
+AUCLog1 = performance(pred, measure = "auc")@y.values[[1]]
+
+cat("AUC: ",AUCLog1)
+## dentro de lo que se quiere en el modelo se optimizar o mirar como se comporta el modelo en accurancy, sensibilidad o especificidadad
+## se puede hacer el acurracy con  todos  los modelos
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------
+## o--> NO CUMPLE 1--> CUMPLE 
+credito_2 <- read_excel("C:/Users/USUARIO/Downloads/creditData02.xlsx")
+View(credito_2)
+str(credito_2) ## hace una descripcion de la varaibles de la tabla
+
+summary(credito_2$credit.rating)
+
+
+
+split <- sample.split(credito_2$credit.rating, SplitRatio = 0.75)#--> aqui estamos definiendo que proporcion del grupo train
+train <- subset(cbind(credito_2,split), cbind(credito,split)$split == TRUE)
+test <- subset(cbind(credito_2,split), cbind(credito,split)$split == FALSE)
+
+### se hace elmodelo logistico con todas las variables
+# en est epado es importante que  quitemos la columna  que estamos evaluando, para este ejemplo credit.rating 
+ # y la clasificación en de r si es train o test
+
+MODRegLog <- glm(train$credit.rating ~ ., data = train[,c(-21,-22)], family = "binomial") 
+summary(MODRegLog)
+
+
+# esta parte se hace con el test, ya que ponemos a prueba la prediccion del modelo, con ese conjunto de datos
+pred1<- predict.glm(MODRegLog,newdata = test[,c(-21,-22)], type="response")
+result1<- table(test$credit.rating, floor(pred1+0.3))
+result1
+
+TP=124
+TN=52 
+FP=23
+FN=51
+accurrancy=(TP+TN)/(TP+TN+FP+FN)
+sensibilidad= TP/(TP+FN)
+especificidad=TN/(TN+FP)
+
+step(MODRegLog, direction = 'both')
+
+
+modelo_2=glm(formula = train$credit.rating ~ account.status + months + 
+               credit.history + purpose + credit.amount + savings + installment.rate + 
+               personal.status + guarantors + other.installments + phone + 
+               foreign.worker, family = "binomial", data = train[, c(-21,-22)])
+
+summary(modelo_2)
+
+pred1<- predict.glm(modelo_2,newdata = test[,c(-21,-22)], type="response")
+result1<- table(test$credit.rating, floor(pred1+0.3))
+result1
+
+TN=48
+FP=126
+FN=48
+TP=127
+
+accurrancy=(TP+TN)/(TP+TN+FP+FN)
+sensibilidad= TP/(TP+FN)
+especificidad=TN/(TN+FP)
