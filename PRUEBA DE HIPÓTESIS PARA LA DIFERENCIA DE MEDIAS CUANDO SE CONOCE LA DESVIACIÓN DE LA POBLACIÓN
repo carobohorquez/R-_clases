@@ -1,0 +1,91 @@
+#### PRUEBA DE HIPÓTESIS PARA LA DIFERENCIA DE MEDIAS CUANDO SE CONOCE LA DESVIACIÓN DE LA POBLACIÓN
+#  siempre se conoce la informacion de las  medias y desviación estandar de las dos poblacione
+#  Se utiliza comunmente para: 
+#  1) Cambio en el comportamiento entre las dos poblacione
+#  2) Comparación entres las dos poblaciones--> puede ser la primera vez 
+
+
+#Ejecicio 1 (Cali - Medellin)
+# El sueldo de un recien egresado se distribuye Normal, en el sector se cree que los sueldos ofrecidos en Cali y en Meddelín son diferentes por lo que se tomó información de ambas ciudades. 
+# En Cali el promedio es de 1.560.000 con desviación de 234.500 y en Medellín el promedio es de 1.560.000 con desviación de 540.000, 
+# pero esta información es de 2018, por lo que se decidió tomar muestras con los siguientes resultados
+# Medellin  1540  1900  1470   1900  2100  2700  1890   1860  1470  1320
+# Cali      1560  1750  1780   1700  1500  1600 1890   1870  1900   2020
+# Calcule una prueba a dos colas y una con una cola que se evidencie a partir de los datos y con significancia en ambas del 97%
+
+Xc=1560000 ## media
+dc=234500 ## desviación estandar
+
+Xm=1560000 ## media
+dm=540000 ## desviación estandar
+
+m=c(1540,1900,  1470,1900,2100, 2700,  1890,   1860,  1470,  1320)*1000
+c=c(1560,1750,1780,1700,1500,1600,1890,1870  ,1900,2020)*1000
+
+mm=mean(m)## promedios poblacionalesd de la muestra
+mc=mean(c)## promedios poblacionalesd de la muestra
+
+nm=length(m)
+nc=length(c)
+
+### DOS COLAS
+# H0 -> Uc = Um
+# H1 -> Uc != Um
+
+  #1) calcular zona de rechazo
+    z=qnorm(0.015,0,1)
+  #2)valores de comparación
+    Zc=((mc-mm)-(Xc-Xm))/sqrt((dc^2/nc)+(dm^2/nm))
+    
+    # NO SE RECHAZA LA HIPOTESIS NULA, las dos poblaciones tiene medias iguales
+    # ZC=-0.3115 Z=-2.170090
+
+#### UNA COLA
+    ## Se quiere ver si el promedio de medellin (U2) es mayor a la de cali (U1)
+    # H0 -> Uc >= Um
+    # H1 -> Uc < Um
+    
+    #1) calcular zona de rechazo
+    z=qnorm(0.03,0,1)
+    #2)valores de comparación
+    Zc=((mc-mm)-(Xc-Xm))/sqrt((dc^2/nc)+(dm^2/nm))
+    
+    ##NO SE RECHAZA LA HIPOTESIS NULA
+    # ZC=-0.3115 Z=-1.88079
+  
+## ejercicio (Barranquilla - Bogotá)
+#La edad de los pacientes que presentan por primera vez problemas cardiacos se distribuye Normal, con media para Bogotá de 41 años y desviación de 6 años y para Barranquilla con media de 47 y desviación de 12 años.
+#Despues de la pandemia se cree que estas diferencias se mantienen por lo que se hace un estudio con los siguientes  valores muestrales:
+ 
+    # se quieren revisar si cambio estas diferencias
+    # revisar el enunciado y los datos que nos dan 
+    #Bog. 45   47  37   38  31   49  51  53  57  49   47  48  41  40  32  35  37  34  41
+    #Barr.  57  61  67  48   49  53   56  63   54  57  48  30  31  35  37  39  34
+    # Calcular una prueba de hipótesis con signficancia del 90%
+    
+    Xbo=41 ## media
+    dbo=6 ## desviación estandar
+    
+    Xba=47 ## media
+    dba=12 ## desviación estandar
+    
+    bo=c(45,47,  37,   38,  31,   49,  51,  53,  57,  49,   47,  48,  41,  40,  32,  35,  37,  34,  41)
+    ba=c(57 , 61 , 67  ,48 ,  49,  53, 56,  63 ,  54,  57,  48,  30,  31,  35,  37,  39,  34)
+    
+    mbo=mean(bo)## promedios poblacionalesd de la muestra
+    mba=mean(ba)## promedios poblacionalesd de la muestra
+    
+    nbo=length(bo)
+    nba=length(ba)
+    
+    ###  COLA IZQUIERDA
+    # H0 -> Uc >= Um
+    # H1 -> Uc < Um
+    
+    #1) calcular zona de rechazo
+    z=qnorm(0.1,0,1)
+    #2)valores de comparación
+    Zc=((mba-mbo)-(Xba-Xbo))/sqrt((dba^2/nba)+(dbo^2/nbo))
+  ## NO SE RECHAZA LA HIPOTESIS NULA
+    # Z=-0.170405 Z=-1.28155
+    
