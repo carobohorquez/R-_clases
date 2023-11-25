@@ -1,0 +1,23 @@
+## PRUEBA DE HIPÓTESIS PARA LA DIFERENCIA DE MEDIAS CUANDO SE CONOCE LA DESVIACIÓN DE LA POBLACIÓN
+# El precio del cemento es un valor que varia entre regiones  porque depende de los fletes de carga, pero en cada region
+# su comportamiento es normal. Despues de pandemia se increntaron considerablemente los precios al punto que se cree que el promedio
+# de Bogota es mayor al de Boyaca.
+
+# El valor en boya era de 28000 y en Bogota  era de  23500, antes de pandemia, en 2022 los precio que se encontraron fue:
+  
+# Bog 23000 27500 32000 37500 32000 31500 30700 36000 28500
+# Boy 25000 35000 31000 33000 35200 36000 34700 30000 31500 31600 39000 34500
+# Calcule una prueba de hipótesis para Boyaca-Bogotá con significancia del 96%
+
+  Xbo=28000 ## media
+  Xby=23500 ## media
+
+  bo=c(23000 ,27500 ,32000 ,37500 ,32000 ,31500 ,30700 ,36000 ,28500)
+  by=c(25000 ,35000 ,31000 ,33000 ,35200 ,36000 ,34700 ,30000 ,31500 ,31600 ,39000,34500)
+
+  mbo=mean(bo)## promedios poblacionalesd de la muestra
+  mby=mean(by)## promedios poblacionalesd de la muestra
+
+  nbo=length(bo)
+  nby=length(by)
+
