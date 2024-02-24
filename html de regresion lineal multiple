@@ -1,0 +1,129 @@
+---
+title: "Regresión lineal Multiple"
+output: html_document
+date: "2024-02-23"
+---
+
+### 1) Cargue de los datos
+1.1) Verificación con la función $head$ de caa variable a trabajar este el $dbl$, es decir, que las variables sean numericas.
+1.2) En la función $str$ se determina el tipo de variable, en este caso siendo todas de tipo $num$.
+
+```{r}
+library(readxl)
+base <- read_excel("C:/Users/USUARIO.DESKTOP-64OMC89/Downloads/Regresion lineal multiple 2.xlsx")
+View(base)
+head(base)
+str(base) #Determnar el tipo de datos que tiene la base
+```
+
+
+### 2) Correlación de las variables regresoras
+Entre las variables $X$ y $Y$ NO debe existir correlación
+ 
+2.1) Todas correlaciones de las $X$ debe ser menores a 80% o 0.8 (Numero estandar), pero se puede ajustar según la problematica
+```{r}
+#Se debe especificar cuales son las posiciones de las columnas
+round(cor(base[,c(1:2)]),3)
+```
+
+2.2) Al existir dos variables que presenten valores de correlación superior a 80% o 0.8. se tienen dos caminos, eliminar una de las dos (la que consiere por experticia menos importante) o eliminar ambas.
+
+### 3) Correlación entre las variables de $Y$ y $X$
+```{r}
+#Se debe especificar cuales son las posiciones de las columnas
+round(cor(base[,c(1:3)]),3)
+```
+3.1) La correlación entre la variable $Y$ y $X_1$ fue de 0.831 o 83,1%, en otras palabras, $X_1$ debe ir en el modelo.
+3.2) La correlación entre la variable $Y$ y $X_2$ fue de 0.973 o 97,3% , en otras palabras, $X_2$ debe ir en el modelo.
+
+3.3)Si alguna no es mayor o igual a 0.8, no se incluye en el modelo
+
+
+```{r}
+panel.cor<- function(x1,y,digits=2, prefix="",cex.cor) {
+  par(usr=c(1,0,1,0))
+  r <-abs(cor(x1,y))
+  txt <- format(c(r,0.123456789),digits=digits)[1]
+  txt <- paste(prefix,txt,sep="")
+  if(missing(cex.cor))
+    cex<- 0.8/strwidth(txt)
+  text(0.5,0.5,txt,cex=cex)
+}
+pairs(base,lower.panel = panel.smooth,upper.panel = panel.cor,main="Gráfico de la matriz de correlaciones")
+```
+```{r}
+#¿Que estamos haciendo?
+# 1. `panel.cor<- function(x1,y,digits=2, prefix="",cex.cor)`:
+#   - Define una función llamada `panel.cor` que toma dos variables (`x1` e `y`) y algunos parámetros opcionales como la cantidad de dígitos (`digits`), un prefijo (`prefix`), y posiblemente un tamaño de texto (`cex.cor`).
+# 2. `par(usr=c(1,0,1,0))`:
+#   - Establece los límites del área de dibujo.
+# 3. `r <-abs(cor(x1,y))`:
+#   - Calcula el valor absoluto del coeficiente de correlación entre `x1` e `y`.
+# 4. `txt <- format(c(r,0.123456789),digits=digits)[1]`:
+#   - Formatea el coeficiente de correlación como texto con un número específico de dígitos.
+# 5. `txt <- paste(prefix,txt,sep="")`:
+#   - Añade un prefijo al texto (si se proporciona).
+# 6. `if(missing(cex.cor)) cex<- 0.8/strwidth(txt)`:
+#   - Si el tamaño de texto no se proporciona, calcula un tamaño basado en el ancho del texto.
+# 7. `text(0.5,0.5,txt,cex=cex)`:
+#   - Muestra el texto en el centro del área de dibujo.
+# 8. `pairs(base,lower.panel = panel.smooth,upper.panel = panel.cor,main="Gráfico de la matriz de correlaciones")`:
+#   - Utiliza la función `pairs` para crear un gráfico de pares con curvas suavizadas en la parte inferior y coeficientes de correlación en la parte superior. El título del gráfico es "Gráfico de la matriz de correlaciones".
+```
+
+### 4) Modelamiento
+```{r}
+#Se incluyen manualmente las variables al modelo
+mod <- lm (Y~X1+X2,data=base)
+
+# Se incluye TODAS las variables  que ecuentre en la base como covariables
+mod1 <- lm (Y~.,data=base)
+
+summary(mod)
+```
+4.1) La columna de $estimate$ se denotan los $betas$ de la variables explicativas
+
+4.2) Con respecto a $Pr(>|t|)$, es el P-valor, haciendo pruebas de hipotesis a cada uno de los  $betas$, usualmente contrastando con un nivel de significia del 5%
+
+4.3) $Multiple R-squared$,las variables $X's$ se ajustan en 99% a explicar el comportamiento de $Y$.
+
+4.4) $p-value$, se realiza una prueba de hipotesis, donde:
+    $H_0$ donde $B_0=B_1=B_2=0$ -> Se rechaza el modelo
+    $H_a$ donde $B_0 != B_1!= B_2 != 0$
+
+ $p-value$ < nivel de significancia (5%)
+ 
+### 5)Valiación del modelo
+
+5.1) Relación entre lo predictores ($X's$) y la variable $Y$ (Dependente)
+
+```{r}
+##install.packages("ggplot2")
+library(ggplot2)
+
+ggplot(data=base, aes(x=Y,y=mod$residuals))+
+  geom_point()+
+  geom_smooth(color="blue")+
+  geom_hline(yintercept=0)+
+  theme_bw()
+
+```
+
+5.2) Normalidad de los residuales
+Prueba de hipotesis para la normalidad (Shapiro-wilk)
+  OBJETIVO: No rechazar
+  
+  $H_0$ donde  Los residuales siguen distribución normal
+
+Entonces $H_0$ Si $p_value > /alpha$ SE RECHAZA EL MODELO
+    
+```{r}
+qqnorm(mod$residuals)
+qqline(mod$residuals)
+
+shapiro.test(mod$residuals)
+```
+
+
+
+
